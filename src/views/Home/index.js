@@ -1,8 +1,15 @@
-import React, { useState } from "react";
+import React, {PureComponent, useState } from "react";
 import { Table, Tag, Space } from 'antd';
+import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
+import { usersActions, usersSelectors } from 'reduxResources/users';
+import Proptypes from 'prop-types';
 // import { Flex } from "../../em-web-ui/components";
 import { Layout, Menu, Breadcrumb } from 'antd';
+
+
 const { Header, Content, Footer, Sider } = Layout;
+
 
 const columns = [
     {
@@ -78,16 +85,25 @@ const columns = [
   ];
   
 
-function HomeContainer() {
-    return (
+  class HomeContainer extends PureComponent {
+    static propTypes = {
+      requestUser: Proptypes.func.isRequired,
+      users: Proptypes.array.isRequired,
+    }
+    componentDidMount() {
+      this.props.requestUser();
+    }
+    render() {
+      const { users, isLoading } = this.props;
+      console.log('users', JSON.stringify(users));
+      if (isLoading) {
+        return (
+          <div>isLoading</div>
+        );
+      }
+  
+      return (
         <Layout>
-        <Header className="header">
-          <Menu theme="white" mode="horizontal" defaultSelectedKeys={['2']}>
-            <Menu.Item key="1">nav 1</Menu.Item>
-            <Menu.Item key="2">nav 2</Menu.Item>
-            <Menu.Item key="3">nav 3</Menu.Item>
-          </Menu>
-        </Header>
         <Content style={{ padding: '0 50px' }}>
           <Breadcrumb style={{ margin: '16px 0' }}>
             <Breadcrumb.Item>Home</Breadcrumb.Item>
@@ -100,13 +116,28 @@ function HomeContainer() {
             </Sider>
             <Content style={{ padding: '0 24px', minHeight: 280 }}>
                 <Table columns={columns} dataSource={data} />
+                {users && JSON.stringify(users)}
             </Content>
           </Layout>
         </Content>
         <Footer style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</Footer>
       </Layout>
-    );
-}
+      );
+    }
+  }
+
+const mapStateToProps = createStructuredSelector({
+  users: usersSelectors.items,
+  isLoading: usersSelectors.isLoadingItems,
+});
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    requestUser: () => {
+      dispatch(usersActions.usersGetAllAjax({ url: 'https://604b3389ee7cb900176a18a4.mockapi.io/api/employees' }));
+    },
+  };
+};
 
 
-export default HomeContainer;
+export default connect(mapStateToProps, mapDispatchToProps)(HomeContainer);
