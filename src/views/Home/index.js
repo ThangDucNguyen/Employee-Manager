@@ -90,7 +90,7 @@ const columns = [
                 <Flex flex={1} justifyContent="flex-end">
                   <Box my={3}>
                     <Link to={`/create`}>
-                      <Button type='primary'>Create Employee</Button>
+                      <Button type='primary'>Add</Button>
                     </Link>
                   </Box>
                 </Flex>

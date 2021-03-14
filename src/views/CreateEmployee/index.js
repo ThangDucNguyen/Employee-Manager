@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Table, Divider, Layout, Breadcrumb, Space, Spin, Button } from 'antd';
 import { Flex,Box } from "../../em-web-ui/components/base/index";
+import CreateForm from './components/CreateForm';
 
 const { Content, Footer, Sider } = Layout;
 
@@ -19,8 +20,8 @@ class CreateEmployeeContainer extends Component {
               Menu
             </Sider>
             <Content style={{ padding: '0 24px', minHeight: 280 }}>
-                <Flex>
-                    Create
+                <Flex flex={1}>
+                    <CreateForm />
                 </Flex>
             </Content>
           </Layout>
