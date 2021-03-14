@@ -2,6 +2,7 @@ import { REDUX_SUFFIXES } from 'appConstants';
 import { filter, switchMap  } from 'rxjs//operators';
 import { getAsync, postAsync, putAsync, deleteAsync } from 'utils/fetchHelpers';
 import { split, head } from 'lodash';
+import { createGlobalStyle } from 'styled-components';
 
 const {
   GET_ALL_AJAX,
@@ -40,10 +41,15 @@ const getAllEpic = (action$) => {
       return getAsync(url, options)
         .then(async ({ total_pages: totalPages }) => {
           const urls = [];
-          for (let i = 1; i <= totalPages; i += 1) {
-            urls.push(getAsync(`${url}/?page=${i}`, options));
-          }
-          const data = (await Promise.all(urls)).reduce((acc, items) => { return acc.concat(...items.data); }, []);
+          //Handle for another case
+          // for (let i = 1; i <= totalPages; i += 1) {
+          //   urls.push(getAsync(`${url}/?page=${i}`, options));
+          // }
+          urls.push(getAsync(`${url}`));
+          // Handle complex case
+          const data = (await Promise.all(urls)).reduce((acc, items) => {
+           return acc.concat(...items); }, []);
+          // const data = (await Promise.all(urls));
           return {
             type: `${head(split(type, `${GET_ALL_AJAX}`))}${GET_ALL_SUCCEEDED}`,
             payload: { data },

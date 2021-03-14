@@ -1,7 +1,6 @@
 import React, { PureComponent } from 'react';
 import { Provider } from 'react-redux';
-import { Redirect, Route, Switch } from 'react-router';
-import { ConnectedRouter } from 'connected-react-router/immutable';
+import { Redirect, Route, Router, Switch } from 'react-router-dom';
 import { getLang } from 'utils/navigatorHelpers';
 import { createRoutes } from './routes';
 import { createStore, history } from 'utils/reduxStoreHelper';
@@ -17,7 +16,7 @@ class App extends PureComponent {
     return (
       <Provider store={store}>
         <LanguageProvider>
-          <ConnectedRouter history={history}>
+          <Router history={history}>
             <GlobalLayout>
               <Switch>
                 <Route
@@ -40,7 +39,7 @@ class App extends PureComponent {
                 />
               </Switch>
             </GlobalLayout>
-          </ConnectedRouter>
+          </Router>
         </LanguageProvider>
       </Provider>
     );

@@ -35,6 +35,7 @@ const AJAX_SUFFIXES = {
 
 export const PATHS = {
   NOT_FOUND: '/404',
+  CREATE: '/create',
 }
 
 export {

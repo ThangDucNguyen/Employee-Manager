@@ -9,6 +9,11 @@ function createRoutes(context = '') {
       component: asyncComponent(() => { return import('./Home'); }),
     },
     {
+      path: `${PATHS.CREATE}`,
+      exact: true,
+      component: asyncComponent(() => { return import('./CreateEmployee'); }),
+    },
+    {
       path: `${PATHS.NOT_FOUND}`,
       component: asyncComponent(() => { return import('./Page404'); }),
     },
