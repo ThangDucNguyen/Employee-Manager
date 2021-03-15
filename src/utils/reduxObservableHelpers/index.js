@@ -1,8 +1,8 @@
-import { REDUX_SUFFIXES } from 'appConstants';
-import { filter, switchMap  } from 'rxjs//operators';
-import { getAsync, postAsync, putAsync, deleteAsync } from 'utils/fetchHelpers';
-import { split, head } from 'lodash';
-import { createGlobalStyle } from 'styled-components';
+import { REDUX_SUFFIXES } from "appConstants";
+import { filter, switchMap } from "rxjs//operators";
+import { getAsync, postAsync, putAsync, deleteAsync } from "utils/fetchHelpers";
+import { split, head } from "lodash";
+import { createGlobalStyle } from "styled-components";
 
 const {
   GET_ALL_AJAX,
@@ -28,15 +28,17 @@ const {
 
 const options = {
   headers: {
-    Accept: 'application/json',
-    'Content-Type': 'application/json',
+    Accept: "application/json",
+    "Content-Type": "application/json",
   },
   // credentials: 'include',
 };
 
 const getAllEpic = (action$) => {
   return action$.pipe(
-    filter(({ type }) => { return type.endsWith(GET_ALL_AJAX); }),
+    filter(({ type }) => {
+      return type.endsWith(GET_ALL_AJAX);
+    }),
     switchMap(({ type, payload: { url } }) => {
       return getAsync(url, options)
         .then(async ({ total_pages: totalPages }) => {
@@ -48,7 +50,8 @@ const getAllEpic = (action$) => {
           urls.push(getAsync(`${url}`));
           // Handle complex case
           const data = (await Promise.all(urls)).reduce((acc, items) => {
-           return acc.concat(...items); }, []);
+            return acc.concat(...items);
+          }, []);
           // const data = (await Promise.all(urls));
           return {
             type: `${head(split(type, `${GET_ALL_AJAX}`))}${GET_ALL_SUCCEEDED}`,
@@ -61,15 +64,20 @@ const getAllEpic = (action$) => {
             payload: { error },
           };
         });
-    }))
+    })
+  );
 };
 
 const getEpic = (action$) => {
   return action$.pipe(
-    filter(({ type }) => { return type.endsWith(GET_AJAX); }),
+    filter(({ type }) => {
+      return type.endsWith(GET_AJAX);
+    }),
     switchMap(({ type, payload: { url } }) => {
       return getAsync(url, options)
-        .then((resp) => { return resp.json(); })
+        .then((resp) => {
+          return resp.json();
+        })
         .then((response) => {
           return {
             type: `${head(split(type, `${GET_AJAX}`))}${GET_SUCCEEDED}`,
@@ -83,15 +91,19 @@ const getEpic = (action$) => {
           };
         });
     })
-  )
+  );
 };
 
 const insertEpic = (action$) => {
   return action$.pipe(
-    filter(({ type }) => { return type.endsWith(INSERT_AJAX); }),
+    filter(({ type }) => {
+      return type.endsWith(INSERT_AJAX);
+    }),
     switchMap(({ type, payload: { url, data } }) => {
       return postAsync(url, JSON.stringify(data), options)
-        .then((resp) => { return resp.json(); })
+        .then((resp) => {
+          return resp.json();
+        })
         .then((response) => {
           return {
             type: `${head(split(type, `_${INSERT_AJAX}`))}${INSERT_SUCCEEDED}`,
@@ -105,15 +117,19 @@ const insertEpic = (action$) => {
           };
         });
     })
-  )
+  );
 };
 
 const updateEpic = (action$) => {
   return action$.pipe(
-    filter(({ type }) => { return type.endsWith(UPDATE_AJAX); }),
+    filter(({ type }) => {
+      return type.endsWith(UPDATE_AJAX);
+    }),
     switchMap(({ type, payload: { url, data } }) => {
       return putAsync(url, JSON.stringify(data), options)
-        .then((resp) => { return resp.json(); })
+        .then((resp) => {
+          return resp.json();
+        })
         .then((response) => {
           return {
             type: `${head(split(type, `${UPDATE_AJAX}`))}${UPDATE_SUCCEEDED}`,
@@ -127,15 +143,19 @@ const updateEpic = (action$) => {
           };
         });
     })
-  )
+  );
 };
 
 const deleteEpic = (action$) => {
   return action$.pipe(
-    filter(({ type }) => { return type.endsWith(DELETE_AJAX); }),
+    filter(({ type }) => {
+      return type.endsWith(DELETE_AJAX);
+    }),
     switchMap(({ type, payload: { url, data } }) => {
       return deleteAsync(url, JSON.stringify(data), options)
-        .then((resp) => { return resp.json(); })
+        .then((resp) => {
+          return resp.json();
+        })
         .then((response) => {
           return {
             type: `${head(split(type, `${DELETE_AJAX}`))}${DELETE_SUCCEEDED}`,
@@ -149,13 +169,7 @@ const deleteEpic = (action$) => {
           };
         });
     })
-  )
+  );
 };
 
-export {
-  getAllEpic,
-  getEpic,
-  insertEpic,
-  updateEpic,
-  deleteEpic,
-};
+export { getAllEpic, getEpic, insertEpic, updateEpic, deleteEpic };

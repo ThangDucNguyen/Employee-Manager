@@ -1,9 +1,5 @@
-import GlobalLayout from './GlobalLayout';
-import MainLayout from './MainLayout';
-import LanguageProvider from './LanguageProvider';
+import GlobalLayout from "./GlobalLayout";
+import MainLayout from "./MainLayout";
+import LanguageProvider from "./LanguageProvider";
 
-export {
-  GlobalLayout,
-  MainLayout,
-  LanguageProvider,
-};
+export { GlobalLayout, MainLayout, LanguageProvider };

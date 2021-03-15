@@ -1,9 +1,8 @@
-
-import styled from '@xstyled/styled-components';
-import Box from './Box';
+import styled from "@xstyled/styled-components";
+import Box from "./Box";
 
 const Flex = styled(Box)({
-  display: 'flex',
+  display: "flex",
 });
 
 export default Flex;

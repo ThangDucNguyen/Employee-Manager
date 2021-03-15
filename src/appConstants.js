@@ -1,4 +1,4 @@
-import keyMirror from 'keymirror';
+import keyMirror from "keymirror";
 
 const REDUX_SUFFIXES = keyMirror({
   GET_ALL_AJAX: null,
@@ -28,17 +28,18 @@ const REDUX_SUFFIXES = keyMirror({
 });
 
 const AJAX_SUFFIXES = {
-  BEGIN_AJAX_CALL_SUFFIX: '_AJAX',
-  AJAX_CALL_SUCCEEDED_SUFFIX: '_SUCCEEDED',
-  AJAX_CALL_FAILED_SUFFIX: '_FAILED',
+  BEGIN_AJAX_CALL_SUFFIX: "_AJAX",
+  AJAX_CALL_SUCCEEDED_SUFFIX: "_SUCCEEDED",
+  AJAX_CALL_FAILED_SUFFIX: "_FAILED",
 };
 
 export const PATHS = {
-  NOT_FOUND: '/404',
-  CREATE: '/create',
-}
-
-export {
-  REDUX_SUFFIXES,
-  AJAX_SUFFIXES,
+  NOT_FOUND: "/404",
+  CREATE: "/create",
+  DETAIL: "/detail/:id",
 };
+
+export const SERVICE_API =
+  "https://604b3389ee7cb900176a18a4.mockapi.io/api/employees";
+
+export { REDUX_SUFFIXES, AJAX_SUFFIXES };

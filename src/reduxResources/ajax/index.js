@@ -1,6 +1,6 @@
-import { fromJS } from 'immutable';
+import { fromJS } from "immutable";
 
-import { AJAX_SUFFIXES } from 'appConstants';
+import { AJAX_SUFFIXES } from "appConstants";
 
 const {
   BEGIN_AJAX_CALL_SUFFIX,
@@ -9,7 +9,7 @@ const {
 } = AJAX_SUFFIXES;
 
 export const reducer = (state = fromJS({}), action) => {
-  const indexOfDelimiter = action.type.lastIndexOf('_');
+  const indexOfDelimiter = action.type.lastIndexOf("_");
   const ajaxName = action.type.substring(0, indexOfDelimiter);
   const ajaxStatus = action.type.substring(indexOfDelimiter);
 
@@ -28,4 +28,6 @@ export const reducer = (state = fromJS({}), action) => {
   }
 };
 
-export const selectAjax = (state) => { return state.get('ajax'); };
+export const selectAjax = (state) => {
+  return state.get("ajax");
+};

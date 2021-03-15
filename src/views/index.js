@@ -1,11 +1,11 @@
-import React, { PureComponent } from 'react';
-import { Provider } from 'react-redux';
-import { Redirect, Route, Router, Switch } from 'react-router-dom';
-import { getLang } from 'utils/navigatorHelpers';
-import { createRoutes } from './routes';
-import { createStore, history } from 'utils/reduxStoreHelper';
-import { LanguageProvider, GlobalLayout, MainLayout } from './_Shared';
-import 'antd/dist/antd.css'; 
+import React, { PureComponent } from "react";
+import { Provider } from "react-redux";
+import { Redirect, Route, Router, Switch } from "react-router-dom";
+import { getLang } from "utils/navigatorHelpers";
+import { createRoutes } from "./routes";
+import { createStore, history } from "utils/reduxStoreHelper";
+import { LanguageProvider, GlobalLayout, MainLayout } from "./_Shared";
+import "antd/dist/antd.css";
 
 const currentLocale = getLang();
 const store = createStore({ locale: currentLocale });
@@ -34,8 +34,7 @@ class App extends PureComponent {
                         </MainLayout>
                       </LanguageProvider>
                     );
-                  }
-                  }
+                  }}
                 />
               </Switch>
             </GlobalLayout>

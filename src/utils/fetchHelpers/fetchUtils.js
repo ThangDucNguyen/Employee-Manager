@@ -1,12 +1,13 @@
-import axios from 'axios';
-import HttpStatus from 'http-status';
-import { get } from 'lodash';
+import axios from "axios";
+import HttpStatus from "http-status";
+import { get } from "lodash";
 
 export const internalFetch = (url, options = {}) => {
   return new Promise(async (resolve, reject) => {
     try {
       // axios.request({ url, ...options, timeout: 20000, withCredentials: true })
-      axios.request({ url, ...options, timeout: 20000 })
+      axios
+        .request({ url, ...options, timeout: 20000 })
         .then((resp) => {
           if (resp.status === 204) {
             resolve(null);
@@ -15,9 +16,10 @@ export const internalFetch = (url, options = {}) => {
           } else {
             resolve(resp.data);
           }
-        }).catch((err) => {
-          const status = get(err, 'response.status');
-          const error = get(err, 'response.data');
+        })
+        .catch((err) => {
+          const status = get(err, "response.status");
+          const error = get(err, "response.data");
           reject({ status, error });
         });
     } catch (error) {
@@ -28,7 +30,8 @@ export const internalFetch = (url, options = {}) => {
 export const internalFetchWithUrl = (url, options = {}) => {
   return new Promise(async (resolve, reject) => {
     try {
-      axios.request({ url, ...options, timeout: 20000, withCredentials: true })
+      axios
+        .request({ url, ...options, timeout: 20000, withCredentials: true })
         .then((resp) => {
           if (resp.status === 204) {
             resolve(null);
@@ -37,9 +40,10 @@ export const internalFetchWithUrl = (url, options = {}) => {
           } else {
             resolve({ data: resp.data, originalUrl: url });
           }
-        }).catch((err) => {
-          const status = get(err, 'response.status');
-          const error = get(err, 'response.data');
+        })
+        .catch((err) => {
+          const status = get(err, "response.status");
+          const error = get(err, "response.data");
           reject({ status, error });
         });
     } catch (error) {

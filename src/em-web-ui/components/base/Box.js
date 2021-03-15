@@ -1,4 +1,4 @@
-import styled from '@xstyled/styled-components';
+import styled from "@xstyled/styled-components";
 
 const Box = styled.divBox``;
 
