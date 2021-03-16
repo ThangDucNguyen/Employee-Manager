@@ -30,7 +30,7 @@ class EmployeeDetailContainer extends Component {
             <Breadcrumb.Item>Detail</Breadcrumb.Item>
           </Breadcrumb>
           <Layout style={{ padding: "24px 0" }}>
-            <Sider width={200}>Menu</Sider>
+            <Sider width={200}></Sider>
             <Content style={{ padding: "0 24px", minHeight: 280 }}>
               <Flex flex={1}>
                 <EmployeeDetailForm item={user ? user.toJS() : {}} />
