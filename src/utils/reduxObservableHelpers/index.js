@@ -153,12 +153,12 @@ const deleteEpic = (action$) => {
     switchMap(({ type, payload: { url, data } }) => {
       return deleteAsync(url, JSON.stringify(data), options)
         .then((resp) => {
-          return resp.json();
+          return resp;
         })
         .then((response) => {
           return {
             type: `${head(split(type, `${DELETE_AJAX}`))}${DELETE_SUCCEEDED}`,
-            payload: { response },
+            payload: { data:response },
           };
         })
         .catch((error) => {

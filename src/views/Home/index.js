@@ -84,7 +84,7 @@ class HomeContainer extends PureComponent {
                   </Link>
                 </Box>
                 <Divider type="vertical" />
-                <Box onClick={() => ConfirmModal(record)}>
+                <Box onClick={() => ConfirmModal(record, this.props.deleteUser)}>
                   <DeleteOutlined />
                 </Box>
               </Flex>

@@ -31,7 +31,7 @@ class EditEmployee extends Component {
             <Breadcrumb.Item>Home</Breadcrumb.Item>
             <Breadcrumb.Item>Edit</Breadcrumb.Item>
           </Breadcrumb>
-          <Layout style={{ padding: "24px 0" }}>
+          <Layout theme="light" style={{ padding: "24px 0" }}>
             <Sider width={200}></Sider>
             <Content style={{ padding: "0 24px", minHeight: 280 }}>
               <Flex flex={1}>

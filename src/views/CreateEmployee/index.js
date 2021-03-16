@@ -27,7 +27,7 @@ class CreateEmployeeContainer extends Component {
             <Breadcrumb.Item>Create</Breadcrumb.Item>
           </Breadcrumb>
           <Layout style={{ padding: "24px 0" }}>
-            <Sider width={200}></Sider>
+            <Sider theme="light" width={200}></Sider>
             <Content style={{ padding: "0 24px", minHeight: 280 }}>
               <Flex flex={1}>
                 <CreateForm onSubmit={this.props.createEmployee} />

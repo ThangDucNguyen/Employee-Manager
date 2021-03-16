@@ -106,8 +106,11 @@ const reduxGenerator = (featureName) => {
           .set("isDeleteSucceeded", undefined)
           .set("deleteError", undefined);
       },
-      [actionTypes.DELETE_SUCCEEDED]: (state) => {
-        return state.set("isDeleteSucceeded", true);
+      [actionTypes.DELETE_SUCCEEDED]: (state,{ payload: { data}}) => {
+        const newData = state.toJS().items.filter(item=>
+          item.id !== data.id
+        )
+        return state.set("isDeleteSucceeded", true).set("items",fromJS(newData));
       },
       [actionTypes.DELETE_FAILED]: (state, { payload: { error } }) => {
         return state.set("deleteError", fromJS(error));
