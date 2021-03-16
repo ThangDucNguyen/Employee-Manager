@@ -1,11 +1,11 @@
+import { Breadcrumb, Layout } from "antd";
 import React, { Component } from "react";
-import { Table, Divider, Layout, Breadcrumb, Space, Spin, Button } from "antd";
-import { Flex, Box } from "../../em-web-ui/components/base/index";
 import { connect } from "react-redux";
 import { createStructuredSelector } from "reselect";
+import { SERVICE_API } from "../../appConstants";
+import { Flex } from "../../em-web-ui/components/base/index";
 import { usersActions } from "../../reduxResources/users";
 import CreateForm from "./components/CreateForm";
-import { SERVICE_API } from "../../appConstants";
 
 const { Content, Footer, Sider } = Layout;
 

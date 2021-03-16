@@ -2,7 +2,6 @@ import { REDUX_SUFFIXES } from "appConstants";
 import { filter, switchMap } from "rxjs//operators";
 import { getAsync, postAsync, putAsync, deleteAsync } from "utils/fetchHelpers";
 import { split, head } from "lodash";
-import { createGlobalStyle } from "styled-components";
 
 const {
   GET_ALL_AJAX,
@@ -76,12 +75,12 @@ const getEpic = (action$) => {
     switchMap(({ type, payload: { url } }) => {
       return getAsync(url, options)
         .then((resp) => {
-          return resp.json();
+          return resp;
         })
         .then((response) => {
           return {
             type: `${head(split(type, `${GET_AJAX}`))}${GET_SUCCEEDED}`,
-            payload: { response },
+            payload: { data: response },
           };
         })
         .catch((error) => {

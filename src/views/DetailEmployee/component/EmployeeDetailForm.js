@@ -1,9 +1,7 @@
 import React, { Component } from "react";
-import { Field, reduxForm } from "redux-form/immutable";
-import { Flex, Box } from "../../../em-web-ui/components/base";
-import { Button } from "antd";
 import { connect } from "react-redux";
 import { createStructuredSelector } from "reselect";
+import { Box, Flex } from "../../../em-web-ui/components/base";
 import { usersActions } from "../../../reduxResources/users";
 
 const FieldValue = ({ label, value }) => {

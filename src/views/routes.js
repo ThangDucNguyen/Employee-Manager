@@ -18,6 +18,12 @@ function createRoutes(context = "") {
       }),
     },
     {
+      path: `${PATHS.EDIT}`,
+      component: asyncComponent(() => {
+        return import("./EditEmployee");
+      }),
+    },
+    {
       path: `${PATHS.NOT_FOUND}`,
       component: asyncComponent(() => {
         return import("./Page404");

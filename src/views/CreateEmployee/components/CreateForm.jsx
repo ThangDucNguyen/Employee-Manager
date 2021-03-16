@@ -16,12 +16,17 @@ const validate = (values) => {
   } else if (newValues.firstName.length > 15) {
     errors.firstName = "Must be 15 characters or less";
   }
-  if (!newValues.email) {
-    errors.email = "Required";
+  if (!newValues.emailAddress) {
+    errors.emailAddress = "Please input email address";
   } else if (
-    !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(newValues.email)
+    !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(newValues.emailAddress)
   ) {
-    errors.email = "Invalid email address";
+    errors.emailAddress = "Invalid email address";
+  }
+  if (!newValues.phoneNumber) {
+    errors.phoneNumber = "Please input phone number";
+  } else if (/\+65(6|8|9)\d{7}/g.test(newValues.phoneNumber)) {
+    errors.phoneNumber = "Invalid SG phone number";
   }
   return errors;
 };
@@ -71,22 +76,37 @@ class SyncValidationForm extends Component {
   componentDidMount() {
     this.handleInitialize();
   }
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps.item !== this.props.item) {
+      this.handleInitialize();
+    }
+  }
   handleInitialize() {
-    const initData = {};
-    this.props.initialize(initData);
+    this.props.initialize(this.props.item);
   }
 
   handleSubmitForm = (values) => {
     const newItems = values.toJS();
-    this.props.onSubmit({
-      gender: true,
-      ...newItems,
-    });
-    this.props.history.push("/");
+    console.log("newItems", newItems);
+    // if (!!this.props.item) {
+    //   this.props.onSubmit(this.props.item.id, {
+    //     gender: true,
+    //     ...newItems,
+    //   });
+    // } else {
+    //   this.props.onSubmit({
+    //     gender: true,
+    //     ...newItems,
+    //   });
+    // }
+
+    //Todo Catch sucessed action to redirect
+    // this.props.history.push("/");
   };
 
   render() {
-    const { handleSubmit, pristine, submitting } = this.props;
+    const { handleSubmit, pristine, submitting, item } = this.props;
+    console.log("pristine || submitting", pristine || submitting);
     return (
       <Form onSubmit={handleSubmit(this.handleSubmitForm)}>
         <FieldComponent
@@ -105,7 +125,7 @@ class SyncValidationForm extends Component {
         />
         <FieldComponent
           label="Email"
-          fieldName="email"
+          fieldName="emailAddress"
           type="email"
           placeholder="Email"
           component={renderField}
@@ -118,7 +138,7 @@ class SyncValidationForm extends Component {
           component={renderField}
         />
         <Flex flex={1} py={4}>
-          <Box width={"300px"}>Sex:</Box>
+          <Box width={"300px"}>Gender:</Box>
           <Flex>
             <Field
               name="gender"
@@ -132,8 +152,11 @@ class SyncValidationForm extends Component {
           </Flex>
         </Flex>
         <Flex flex={1} justifyContent="flex-end">
-          <button type="submit" disabled={pristine || submitting}>
-            Create Employee
+          <button
+            type="submit"
+            disabled={!!item ? false : pristine || submitting}
+          >
+            {!!item ? "Edit" : "Create Employee"}
           </button>
         </Flex>
       </Form>

@@ -4,7 +4,8 @@ import * as defaultEpics from "utils/reduxObservableHelpers";
 import { connectRouter } from "connected-react-router";
 import { reducer as localeReducer } from "./locale";
 import { reducer as ajaxReducer } from "./ajax";
-import { reducer as userReducer } from "./users";
+import { reducer as usersReducer } from "./users";
+import { reducer as userReducer } from "./user";
 
 const epics = {
   ...defaultEpics,
@@ -15,7 +16,8 @@ const createRootReducer = (history) =>
     form: formReducer,
     locale: localeReducer,
     ajax: ajaxReducer,
-    users: userReducer,
+    users: usersReducer,
+    user: userReducer,
     router: connectRouter(history),
   });
 

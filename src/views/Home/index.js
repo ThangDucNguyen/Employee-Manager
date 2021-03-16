@@ -1,12 +1,14 @@
-import React, { PureComponent } from "react";
-import { Table, Divider, Layout, Breadcrumb, Space, Spin, Button } from "antd";
-import { connect } from "react-redux";
-import { createStructuredSelector } from "reselect";
-import { usersActions, usersSelectors } from "reduxResources/users";
+import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
+import { Breadcrumb, Button, Divider, Layout, Table } from "antd";
 import Proptypes from "prop-types";
-import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
-import { Flex, Box } from "../../em-web-ui/components/base/index";
+import React, { PureComponent } from "react";
+import { connect } from "react-redux";
 import { Link } from "react-router-dom";
+import { usersActions, usersSelectors } from "reduxResources/users";
+import { createStructuredSelector } from "reselect";
+import { SERVICE_API } from "../../appConstants";
+import { Box, Flex } from "../../em-web-ui/components/base/index";
+import ConfirmModal from "./component/DeleteModal";
 
 const { Content, Footer, Sider } = Layout;
 
@@ -18,10 +20,22 @@ class HomeContainer extends PureComponent {
   componentDidMount() {
     this.props.requestUser();
   }
+  state = { visible: false };
+
+  showModal = () => {
+    this.setState({
+      visible: true,
+    });
+  };
+
+  hideModal = () => {
+    this.setState({
+      visible: false,
+    });
+  };
 
   render() {
     const { users, isLoading } = this.props;
-
     const columns = [
       {
         title: "First Name",
@@ -54,19 +68,19 @@ class HomeContainer extends PureComponent {
         responsive: ["md"],
       },
       {
-        title: "Action",
+        title: "Actions",
         key: "action",
         render: (_text, record) => {
           return (
             <span>
               <Flex>
                 <Box>
-                  <Link to={`/detail/${record.id}`}>
+                  <Link to={`/edit/${record.id}`}>
                     <EditOutlined />
                   </Link>
                 </Box>
                 <Divider type="vertical" />
-                <Box onClick={() => this.props.deleteUser(record.id)}>
+                <Box onClick={() => ConfirmModal(record)}>
                   <DeleteOutlined />
                 </Box>
               </Flex>
@@ -82,7 +96,6 @@ class HomeContainer extends PureComponent {
           <Breadcrumb style={{ margin: "16px 0" }}>
             <Breadcrumb.Item>Home</Breadcrumb.Item>
             <Breadcrumb.Item>List</Breadcrumb.Item>
-            <Breadcrumb.Item>App</Breadcrumb.Item>
           </Breadcrumb>
           <Layout
             className="site-layout-background"
@@ -123,14 +136,14 @@ const mapDispatchToProps = (dispatch) => {
     requestUser: () => {
       dispatch(
         usersActions.usersGetAllAjax({
-          url: "https://604b3389ee7cb900176a18a4.mockapi.io/api/employees",
+          url: SERVICE_API,
         })
       );
     },
     deleteUser: (id) => {
       dispatch(
         usersActions.usersDeleteAjax({
-          url: `https://604b3389ee7cb900176a18a4.mockapi.io/api/employees/${id}`,
+          url: `${SERVICE_API}/${id}`,
         })
       );
     },
