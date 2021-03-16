@@ -16,6 +16,7 @@ const validate = (values) => {
   } else if (newValues.firstName.length > 15) {
     errors.firstName = "Must be 15 characters or less";
   }
+
   if (!newValues.emailAddress) {
     errors.emailAddress = "Please input email address";
   } else if (
@@ -87,26 +88,24 @@ class SyncValidationForm extends Component {
 
   handleSubmitForm = (values) => {
     const newItems = values.toJS();
-    console.log("newItems", newItems);
-    // if (!!this.props.item) {
-    //   this.props.onSubmit(this.props.item.id, {
-    //     gender: true,
-    //     ...newItems,
-    //   });
-    // } else {
-    //   this.props.onSubmit({
-    //     gender: true,
-    //     ...newItems,
-    //   });
-    // }
+    if (!!this.props.item) {
+      this.props.onSubmit(this.props.item.id, {
+        gender: true,
+        ...newItems,
+      });
+    } else {
+      this.props.onSubmit({
+        gender: true,
+        ...newItems,
+      });
+    }
 
-    //Todo Catch sucessed action to redirect
-    // this.props.history.push("/");
+    // Todo Catch sucessed action to redirect
+    this.props.history.push("/");
   };
 
   render() {
     const { handleSubmit, pristine, submitting, item } = this.props;
-    console.log("pristine || submitting", pristine || submitting);
     return (
       <Form onSubmit={handleSubmit(this.handleSubmitForm)}>
         <FieldComponent

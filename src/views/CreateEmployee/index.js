@@ -1,4 +1,4 @@
-import { Breadcrumb, Layout } from "antd";
+import { Breadcrumb, Layout, Spin } from "antd";
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { createStructuredSelector } from "reselect";
@@ -12,21 +12,22 @@ const { Content, Footer, Sider } = Layout;
 class CreateEmployeeContainer extends Component {
   render() {
     const { isLoading, error } = this.props;
+    if (isLoading) {
+      return (
+        <Flex flex={1} justifyContent="center">
+          <Spin size="large" />
+        </Flex>
+      );
+    }
     return (
       <Layout>
         <Content style={{ padding: "0 50px" }}>
           <Breadcrumb style={{ margin: "16px 0" }}>
             <Breadcrumb.Item>Home</Breadcrumb.Item>
-            <Breadcrumb.Item>List</Breadcrumb.Item>
-            <Breadcrumb.Item>App</Breadcrumb.Item>
+            <Breadcrumb.Item>Create</Breadcrumb.Item>
           </Breadcrumb>
-          <Layout
-            className="site-layout-background"
-            style={{ padding: "24px 0" }}
-          >
-            <Sider className="site-layout-background" width={200}>
-              Menu
-            </Sider>
+          <Layout style={{ padding: "24px 0" }}>
+            <Sider width={200}></Sider>
             <Content style={{ padding: "0 24px", minHeight: 280 }}>
               <Flex flex={1}>
                 <CreateForm onSubmit={this.props.createEmployee} />

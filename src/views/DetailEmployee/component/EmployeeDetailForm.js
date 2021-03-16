@@ -1,8 +1,5 @@
 import React, { Component } from "react";
-import { connect } from "react-redux";
-import { createStructuredSelector } from "reselect";
 import { Box, Flex } from "../../../em-web-ui/components/base";
-import { usersActions } from "../../../reduxResources/users";
 
 const FieldValue = ({ label, value }) => {
   return (
@@ -13,37 +10,20 @@ const FieldValue = ({ label, value }) => {
   );
 };
 class EmployeeDetail extends Component {
-  componentDidMount() {
-    this.props.getEmployee("22");
-  }
-
   render() {
+    const {
+      item: { firstName, lastName, emailAddress, phoneNumber, gender },
+    } = this.props;
     return (
-      <Flex>
-        <FieldValue label="First Name" />
-        <FieldValue label="Last Name" />
-        <FieldValue label="Email" />
-        <FieldValue label="Phone Number" />
-        <FieldValue label="Phone Number" />
+      <Flex flexDirection="column">
+        <FieldValue label="First Name" value={firstName} />
+        <FieldValue label="Last Name" value={lastName} />
+        <FieldValue label="Email" value={emailAddress} />
+        <FieldValue label="Phone Number" value={phoneNumber} />
+        <FieldValue label="Gender" value={gender ? "Male" : "Female"} />
       </Flex>
     );
   }
 }
 
-const mapStateToProps = createStructuredSelector({
-  // form: formReducer.CreateForm,
-});
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    getEmployee: (id) => {
-      dispatch(
-        usersActions.usersGetAjax({
-          url: `https://604b3389ee7cb900176a18a4.mockapi.io/api/employees/${id}`,
-        })
-      );
-    },
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(EmployeeDetail);
+export default EmployeeDetail;

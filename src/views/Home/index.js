@@ -1,5 +1,5 @@
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
-import { Breadcrumb, Button, Divider, Layout, Table } from "antd";
+import { Breadcrumb, Button, Divider, Layout, Table, Skeleton } from "antd";
 import Proptypes from "prop-types";
 import React, { PureComponent } from "react";
 import { connect } from "react-redux";
@@ -41,13 +41,17 @@ class HomeContainer extends PureComponent {
         title: "First Name",
         dataIndex: "firstName",
         key: "firstName",
-        render: (text) => <a>{text}</a>,
+        render: (text, record) => {
+          return <Link to={`/detail/${record.id}`}>{text}</Link>;
+        },
       },
       {
         title: "Last Name",
         dataIndex: "lastName",
         key: "lastName",
-        render: (text) => <a>{text}</a>,
+        render: (text, record) => {
+          return <Link to={`/detail/${record.id}`}>{text}</Link>;
+        },
       },
       {
         title: "Phone Number",
@@ -58,13 +62,13 @@ class HomeContainer extends PureComponent {
         title: "Gender",
         dataIndex: "gender",
         key: "Gender",
-        render: (text) => <a>{text ? "Male" : "Female"}</a>,
+        render: (text) => <Box>{text ? "Male" : "Female"}</Box>,
       },
       {
         title: "Email",
         key: "emailAddress",
         dataIndex: "emailAddress",
-        render: (text) => <a>{text}</a>,
+        render: (text) => <Box>{text}</Box>,
         responsive: ["md"],
       },
       {
@@ -97,13 +101,8 @@ class HomeContainer extends PureComponent {
             <Breadcrumb.Item>Home</Breadcrumb.Item>
             <Breadcrumb.Item>List</Breadcrumb.Item>
           </Breadcrumb>
-          <Layout
-            className="site-layout-background"
-            style={{ padding: "24px 0" }}
-          >
-            <Sider className="site-layout-background" width={200}>
-              Menu
-            </Sider>
+          <Layout style={{ padding: "24px 0" }}>
+            <Sider theme="light" width={200}></Sider>
             <Content style={{ padding: "0 24px", minHeight: 280 }}>
               <Flex flex={1} justifyContent="flex-end">
                 <Box my={3}>
