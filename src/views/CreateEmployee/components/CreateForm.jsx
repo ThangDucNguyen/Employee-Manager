@@ -1,15 +1,14 @@
+import { Input, Select } from "antd";
 import React, { Component } from "react";
-import { Field, reduxForm } from "redux-form/immutable";
-import { Flex, Box } from "../../../em-web-ui/components/base";
-import { Form } from "redux-form/immutable";
-import { Input } from "antd";
-import { Select } from "antd";
-import { withRouter } from "react-router-dom";
+import { Prompt, withRouter } from "react-router-dom";
+import { Field, Form, reduxForm } from "redux-form/immutable";
+import { Box, Flex } from "../../../em-web-ui/components/base";
 
 const { Option } = Select;
 
 const validate = (values) => {
   const newValues = values.toJS();
+  const re = /\+65(6|8|9)\d{7}/g;
   const errors = {};
   if (!newValues.firstName) {
     errors.firstName = "Required";
@@ -26,7 +25,7 @@ const validate = (values) => {
   }
   if (!newValues.phoneNumber) {
     errors.phoneNumber = "Please input phone number";
-  } else if (/\+65(6|8|9)\d{7}/g.test(newValues.phoneNumber)) {
+  } else if (re.test(newValues.phoneNumber)) {
     errors.phoneNumber = "Invalid SG phone number";
   }
   return errors;
@@ -74,9 +73,14 @@ const FieldComponent = ({
   );
 };
 class SyncValidationForm extends Component {
+  constructor(props) {
+    super();
+    this.state = { isSubmit: false };
+  }
   componentDidMount() {
     this.handleInitialize();
   }
+
   componentDidUpdate(prevProps, prevState) {
     if (prevProps.item !== this.props.item) {
       this.handleInitialize();
@@ -99,15 +103,22 @@ class SyncValidationForm extends Component {
         ...newItems,
       });
     }
-
-    // Todo Catch sucessed action to redirect
-    this.props.history.push("/");
+    this.setState({ isSubmit: true }, () => {
+      // Todo Catch sucessed action to redirect
+      this.props.history.push("/");
+    });
   };
 
   render() {
     const { handleSubmit, pristine, submitting, item } = this.props;
     return (
       <Form onSubmit={handleSubmit(this.handleSubmitForm)}>
+        <Prompt
+          when={!pristine && !this.state.isSubmit}
+          message={() =>
+            `Your work is not saved! Are you sure you want to leave?`
+          }
+        />
         <FieldComponent
           label="First Name"
           fieldName="firstName"
