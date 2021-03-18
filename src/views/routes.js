@@ -2,16 +2,17 @@ import asyncComponent from "components/asyncComponent";
 import { PATHS } from "appConstants";
 
 function createRoutes(context = "") {
+  console.log("PATHS", PATHS);
   return [
     {
-      path: "/",
+      path: `${PATHS.LIST}`,
       exact: true,
       component: asyncComponent(() => {
         return import("./Home");
       }),
     },
     {
-      path: `${PATHS.CREATE}`,
+      path: `${PATHS.ADD}`,
       exact: true,
       component: asyncComponent(() => {
         return import("./CreateEmployee");

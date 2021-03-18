@@ -1,5 +1,5 @@
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
-import { Breadcrumb, Button, Divider, Layout, Table, Skeleton } from "antd";
+import { Breadcrumb, Button, Divider, Layout, Table } from "antd";
 import Proptypes from "prop-types";
 import React, { PureComponent } from "react";
 import { connect } from "react-redux";
@@ -35,14 +35,14 @@ class HomeContainer extends PureComponent {
   };
 
   render() {
-    const { users, isLoading } = this.props;
+    const { users } = this.props;
     const columns = [
       {
         title: "First Name",
         dataIndex: "firstName",
         key: "firstName",
         render: (text, record) => {
-          return <Link to={`/detail/${record.id}`}>{text}</Link>;
+          return <Link to={`/employee/detail/${record.id}`}>{text}</Link>;
         },
       },
       {
@@ -50,7 +50,7 @@ class HomeContainer extends PureComponent {
         dataIndex: "lastName",
         key: "lastName",
         render: (text, record) => {
-          return <Link to={`/detail/${record.id}`}>{text}</Link>;
+          return <Link to={`/employee/detail/${record.id}`}>{text}</Link>;
         },
       },
       {
@@ -79,12 +79,14 @@ class HomeContainer extends PureComponent {
             <span>
               <Flex>
                 <Box>
-                  <Link to={`/edit/${record.id}`}>
+                  <Link to={`/employee/edit/${record.id}`}>
                     <EditOutlined />
                   </Link>
                 </Box>
                 <Divider type="vertical" />
-                <Box onClick={() => ConfirmModal(record, this.props.deleteUser)}>
+                <Box
+                  onClick={() => ConfirmModal(record, this.props.deleteUser)}
+                >
                   <DeleteOutlined />
                 </Box>
               </Flex>
@@ -106,7 +108,7 @@ class HomeContainer extends PureComponent {
             <Content style={{ padding: "0 24px", minHeight: 280 }}>
               <Flex flex={1} justifyContent="flex-end">
                 <Box my={3}>
-                  <Link to={`/create`}>
+                  <Link to={`/employee/add`}>
                     <Button type="primary">Add</Button>
                   </Link>
                 </Box>

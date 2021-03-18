@@ -24,7 +24,7 @@ class CreateEmployeeContainer extends Component {
         <Content style={{ padding: "0 50px" }}>
           <Breadcrumb style={{ margin: "16px 0" }}>
             <Breadcrumb.Item>Home</Breadcrumb.Item>
-            <Breadcrumb.Item>Create</Breadcrumb.Item>
+            <Breadcrumb.Item>Add</Breadcrumb.Item>
           </Breadcrumb>
           <Layout style={{ padding: "24px 0" }}>
             <Sider theme="light" width={200}></Sider>

@@ -1,19 +1,41 @@
-import { Input, Select } from "antd";
+import { Input, Radio } from "antd";
 import React, { Component } from "react";
 import { Prompt, withRouter } from "react-router-dom";
 import { Field, Form, reduxForm } from "redux-form/immutable";
+import { PATHS } from "../../../appConstants";
 import { Box, Flex } from "../../../em-web-ui/components/base";
 
-const { Option } = Select;
+const createFieldComp = (Comp) => {
+  return ({ children, ...props }) => {
+    const onChange = (args) => {
+      props.input.onChange(args.target.value);
+    };
+    return (
+      <Comp {...props.input} onChange={onChange}>
+        {children}
+      </Comp>
+    );
+  };
+};
+
+const RadioGroupCom = createFieldComp(Radio.Group);
 
 const validate = (values) => {
   const newValues = values.toJS();
-  const re = /\+65(6|8|9)\d{7}/g;
+  const re = /\+65(6|8|9)\d{7}$/g;
   const errors = {};
   if (!newValues.firstName) {
-    errors.firstName = "Required";
-  } else if (newValues.firstName.length > 15) {
-    errors.firstName = "Must be 15 characters or less";
+    errors.firstName = "Please input first name";
+  } else if (
+    newValues.firstName.length > 10 ||
+    newValues.firstName.length < 6
+  ) {
+    errors.firstName = "Must be more than 6 and less than 10";
+  }
+  if (!newValues.lastName) {
+    errors.lastName = "Please input last name";
+  } else if (newValues.lastName.length > 10 || newValues.lastName.length < 6) {
+    errors.lastName = "Must be more than 6 and less than 10";
   }
 
   if (!newValues.emailAddress) {
@@ -25,7 +47,7 @@ const validate = (values) => {
   }
   if (!newValues.phoneNumber) {
     errors.phoneNumber = "Please input phone number";
-  } else if (re.test(newValues.phoneNumber)) {
+  } else if (!re.test(newValues.phoneNumber)) {
     errors.phoneNumber = "Invalid SG phone number";
   }
   return errors;
@@ -37,19 +59,24 @@ const renderField = ({
   type,
   width,
   meta: { touched, error, warning },
-}) => (
-  <Flex flexDirection="column">
-    <Input
-      {...input}
-      placeholder={label}
-      type={type}
-      style={{ width: width }}
-    />
-    {touched &&
-      ((error && <Box color="red">{error}</Box>) ||
-        (warning && <span>{warning}</span>))}
-  </Flex>
-);
+}) => {
+  return (
+    <Flex flexDirection="column">
+      <Input
+        {...input}
+        placeholder={label}
+        type={type}
+        style={{
+          width: width,
+          border: touched && error ? "1px solid red" : "",
+        }}
+      />
+      {touched &&
+        ((error && <Box color="red">{error}</Box>) ||
+          (warning && <span>{warning}</span>))}
+    </Flex>
+  );
+};
 const FieldComponent = ({
   label,
   fieldType,
@@ -72,10 +99,11 @@ const FieldComponent = ({
     </Flex>
   );
 };
+
 class SyncValidationForm extends Component {
   constructor(props) {
     super();
-    this.state = { isSubmit: false };
+    this.state = { isSubmit: false, value: "male" };
   }
   componentDidMount() {
     this.handleInitialize();
@@ -87,36 +115,48 @@ class SyncValidationForm extends Component {
     }
   }
   handleInitialize() {
-    this.props.initialize(this.props.item);
+    const mappingData = {
+      ...this.props.item,
+      gender:
+        this.props.item && this.props.item.gender === false ? "female" : "male",
+    };
+    console.log("mappingData", mappingData);
+    this.props.initialize(mappingData);
   }
 
   handleSubmitForm = (values) => {
     const newItems = values.toJS();
+    const gender = newItems.gender === "male" ? true : false;
     if (!!this.props.item) {
       this.props.onSubmit(this.props.item.id, {
-        gender: true,
         ...newItems,
+        gender: gender,
       });
     } else {
       this.props.onSubmit({
-        gender: true,
         ...newItems,
+        gender: gender,
       });
     }
+    console.log(gender, {
+      ...newItems,
+      gender: gender,
+    });
     this.setState({ isSubmit: true }, () => {
       // Todo Catch sucessed action to redirect
-      this.props.history.push("/");
+      this.props.history.push(PATHS.LIST);
     });
   };
 
   render() {
     const { handleSubmit, pristine, submitting, item } = this.props;
+
     return (
       <Form onSubmit={handleSubmit(this.handleSubmitForm)}>
         <Prompt
           when={!pristine && !this.state.isSubmit}
           message={() =>
-            `Your work is not saved! Are you sure you want to leave?`
+            `Form has been modified. You will loose your unsaved changes. Are you sure you want to close this form?`
           }
         />
         <FieldComponent
@@ -152,12 +192,11 @@ class SyncValidationForm extends Component {
           <Flex>
             <Field
               name="gender"
-              component={Select}
+              component={RadioGroupCom}
               style={{ width: 120 }}
-              defaultValue={true}
             >
-              <Option value={true}>Male</Option>
-              <Option value={false}>Female</Option>
+              <Radio value={"male"}>Male</Radio>
+              <Radio value={"female"}>Female</Radio>
             </Field>
           </Flex>
         </Flex>
@@ -166,7 +205,7 @@ class SyncValidationForm extends Component {
             type="submit"
             disabled={!!item ? false : pristine || submitting}
           >
-            {!!item ? "Edit" : "Create Employee"}
+            {!!item ? "Edit Employee" : "Create Employee"}
           </button>
         </Flex>
       </Form>

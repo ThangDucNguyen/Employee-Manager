@@ -29,6 +29,8 @@ class App extends PureComponent {
                             {routes.map((route) => {
                               return <Route key={route.path} {...route} />;
                             })}
+
+                            <Redirect from="/" to="/employee/list" />
                             <Redirect from="/*" to="/404" />
                           </Switch>
                         </MainLayout>

@@ -34,10 +34,11 @@ const AJAX_SUFFIXES = {
 };
 
 export const PATHS = {
+  LIST: "/employee/list",
   NOT_FOUND: "/404",
-  CREATE: "/create",
-  EDIT: "/edit/:id",
-  DETAIL: "/detail/:id",
+  ADD: "/employee/add",
+  EDIT: "/employee/edit/:id",
+  DETAIL: "/employee/detail/:id",
 };
 
 export const SERVICE_API =
